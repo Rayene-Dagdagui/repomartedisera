@@ -43,7 +43,7 @@ Limitazioni della Mock mode
 - La modalità Mock deve essere abilitata manualmente dall'interfaccia; non intercetta automaticamente errori di rete.
 
 ## Struttura del progetto
-- `src/app/freetogame-explorer.component.*`: componente principale con logica di geocoding e meteo.
+- `src/app/weather-explorer.component.*`: componente principale con logica di geocoding e meteo.
 - `src/main.ts`, `src/index.html`: bootstrap e shell dell'app.
 - `angular.json`, `package.json`: configurazione build e dipendenze.
 
@@ -53,4 +53,3 @@ Limitazioni della Mock mode
 - Mostrare mappa o dettaglio esteso per la città selezionata.
 
 Se vuoi, applico una di queste estensioni ora.
-

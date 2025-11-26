@@ -16,13 +16,13 @@ const SAMPLE_MOCK_RESULTS = [
 ];
 
 @Component({
-  selector: 'app-freetogame-explorer',
+  selector: 'app-weather-explorer',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './freetogame-explorer.component.html',
-  styleUrls: ['./freetogame-explorer.component.css'],
+  templateUrl: './weather-explorer.component.html',
+  styleUrls: ['./weather-explorer.component.css'],
 })
-export class FreetoGameExplorerComponent implements OnInit {
+export class WeatherExplorerComponent implements OnInit {
   // UI state
   searchTitle = '';
   loading = false;
