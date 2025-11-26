@@ -1,50 +1,66 @@
 <div class="container">
-  <div class="mb-4">
-    <h1 class="title">Esploratore Meteo</h1>
-    <div class="subtitle">Cerca una città e mostra il meteo attuale (Open-Meteo, gratuito).</div>
+  <div class="header">
+    <h1 class="title">🌤️ Esploratore Meteo</h1>
+    <p class="subtitle">Cerca una città per scoprire il meteo attuale e le previsioni orarie</p>
   </div>
 
-  <div class="grid">
-    <div>
-      <label class="small">Città</label>
-      <input placeholder="es. Roma" [(ngModel)]="searchTitle" />
-    </div>
+  <div class="search-card">
+    <div class="grid">
+      <div class="input-group">
+        <label class="label">📍 Città</label>
+        <input placeholder="es. Roma, Milano, Palermo..." [(ngModel)]="searchTitle" (keyup.enter)="fetchWeather()" />
+      </div>
 
-    <div class="full" style="display:flex;gap:8px;justify-content:flex-end;">
-      <button class="primary" (click)="fetchWeather()" [disabled]="loading">{{ loading ? 'Caricamento...' : 'Mostra meteo' }}</button>
-      <button (click)="mockMode = !mockMode">Modalità Mock</button>
-      <button (click)="reset()">Azzera</button>
+      <div class="button-group">
+        <button class="primary" (click)="fetchWeather()" [disabled]="loading">
+          {{ loading ? '⏳ Caricamento...' : '🔍 Mostra meteo' }}
+        </button>
+        <button class="secondary" (click)="reset()">✖ Azzera</button>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="error" class="card" style="margin-top:12px;color:#b91c1c;">Errore: {{ error }}</div>
+  <div *ngIf="error" class="error-card">
+    <span class="error-icon">⚠️</span>
+    <span>{{ error }}</span>
+  </div>
 
-  <div *ngIf="results.length > 0" style="margin-top:12px;display:flex;flex-direction:column;gap:12px;">
-    <div *ngFor="let r of results" class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div>
-          <div style="font-weight:700;">{{ r.city }} {{ r.country ? '(' + r.country + ')' : '' }}</div>
-          <div class="small">Ora: {{ r.time }}</div>
+  <div *ngIf="results.length > 0" class="results-section">
+    <div *ngFor="let r of results" class="weather-card">
+      <div class="weather-header">
+        <div class="location-info">
+          <h2 class="location-name">{{ r.city }}</h2>
+          <p class="country">{{ r.country }}</p>
+          <p class="time-info">{{ r.time }}</p>
         </div>
-        <div style="text-align:right;">
-          <div style="font-size:20px;font-weight:700;">{{ weatherCodeToEmoji(r.weathercode) }} {{ r.temperature }}°C</div>
-          <div class="small">Vento: {{ r.windspeed }} m/s</div>
+        <div class="weather-main">
+          <div class="weather-icon">{{ weatherCodeToEmoji(r.weathercode) }}</div>
+          <div class="temperature">{{ r.temperature }}°C</div>
         </div>
       </div>
 
-      <div *ngIf="r.hourlyForecast && r.hourlyForecast.length > 0" style="margin-top:10px;">
-        <div style="font-weight:600;margin-bottom:6px;">Previsioni orarie (prime 24 ore):</div>
+      <div class="weather-details">
+        <div class="detail-item">
+          <span class="detail-label">💨 Vento</span>
+          <span class="detail-value">{{ r.windspeed }} m/s</span>
+        </div>
+      </div>
+
+      <div *ngIf="r.hourlyForecast && r.hourlyForecast.length > 0" class="forecast-section">
+        <h3 class="forecast-title">📊 Previsioni orarie (prime 24 ore)</h3>
         <div class="hour-grid">
-          <div *ngFor="let h of r.hourlyForecast">
-            <div>{{ h.time | slice:11:16 }}</div>
-            <div style="font-weight:600">{{ h.temperature }}°C</div>
-            <div class="small">{{ h.windspeed }} m/s</div>
+          <div *ngFor="let h of r.hourlyForecast" class="hour-item">
+            <div class="hour-time">{{ h.time | slice:11:16 }}</div>
+            <div class="hour-temp">{{ h.temperature }}°C</div>
+            <div class="hour-wind">💨 {{ h.windspeed }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="results.length === 0 && !loading" class="small" style="margin-top:12px;">Nessun risultato — inserisci una città e premi "Mostra meteo".</div>
+  <div *ngIf="results.length === 0 && !loading" class="empty-state">
+    <p>🌍 Nessun risultato — inserisci una città e premi "Mostra meteo"</p>
+  </div>
 
 </div>

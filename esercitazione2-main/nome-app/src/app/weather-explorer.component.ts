@@ -2,19 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-// Minimal mock result used when Mock mode is enabled
-const SAMPLE_MOCK_RESULTS = [
-  {
-    id: 1,
-    city: 'Rome',
-    country: 'Italy',
-    temperature: 21.3,
-    windspeed: 3.4,
-    weathercode: 0,
-    time: '2025-11-25T12:00:00Z',
-  },
-];
-
 @Component({
   selector: 'app-weather-explorer',
   standalone: true,
@@ -27,7 +14,6 @@ export class WeatherExplorerComponent implements OnInit {
   searchTitle = '';
   loading = false;
   error: string | null = null;
-  mockMode = false;
 
   // The simple results array (1 or more locations with current weather)
   results: Array<any> = [];
@@ -67,14 +53,8 @@ export class WeatherExplorerComponent implements OnInit {
     }
   }
 
-  async fetchWeather(options: any = {}): Promise<any | null> {
-    const { forceMock = false } = options;
+  async fetchWeather(): Promise<any | null> {
     this.error = null;
-
-    if (forceMock || this.mockMode) {
-      this.results = SAMPLE_MOCK_RESULTS;
-      return this.results;
-    }
 
     const q = this.searchTitle?.trim();
     if (!q) {
@@ -137,7 +117,6 @@ export class WeatherExplorerComponent implements OnInit {
     this.results = [];
     this.error = null;
     this.loading = false;
-    this.mockMode = false;
   }
 
   // Map Open-Meteo weather codes to a simple emoji/icon for quick UI
